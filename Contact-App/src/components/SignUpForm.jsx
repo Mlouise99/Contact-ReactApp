@@ -1,17 +1,26 @@
 
 import React, { useState } from 'react';
 
+
 const AddContact= ({ onSubmit }) => {
 const[fullname, setFullname]= useState('');
 const [email, setEmail] = useState('');
 const [phone, setPhone]= useState('');
-
 const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit({fullname,phone, email, password });
-  };
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+  onSubmit({ fullname, phone, email, password });
+  console.log('Form submitted successfully');
+  alert('Contact added successfully!');
+  setFullname('');
+  setPhone('');
+  setEmail('');
+  setPassword('');
+  window.location.href = '/contacts'; // Redirect after all operations
+};
+
 
   return (
     <form onSubmit={handleSubmit}>
