@@ -1,54 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import { Link } from "react-router-dom"
 
-const ContactsPage = () => {
-  const [contacts, setContacts] = useState([]);
+const Contact = ({ contact }) => {
+   
 
-  useEffect(() => {
-    
-    const fetchContacts = async () => {
-      try {
-        const response = await fetch('/api/contacts',{
-         method:'GET',
-         headers:{
-          'Content-type':'application/json'
-         } 
-        }); 
-        const data = await response.json();
-        setContacts(data);
-      } catch (error) {
-        console.error('Error fetching contacts:', error);
-      
-      }
-    };
-  
-    fetchContacts();
-  }, []);
-  
-
-  return (
-    <div className="container flex mx-auto mt-10  justify-center w-full items-center border border-gray-100 rounded-lg p-4 bg-white  shadow-lg ">
-      <h1 className="text-2xl font-bold mb-5 mt-10 pr-20">All Registered Contacts</h1>
-      <div className='pl-10'>
-        <button
-          className="bg-blue-500 hover:bg-blue-700 w-30 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          type="submit"
+    return (
+        <Link
+            to={`${contact._id}`}
+            className="relative block overflow-hidden rounded-lg border border-gray-100 p-4 sm:p-6 lg:p-8"
         >
-         Add New
-        </button>
-      </div>
-      <div>
-        {contacts.map((contact) => (
-          <div key={contact.id}>
-            
-            <p>FullName: {contact.fullname}</p>
-            <p>Phone: {contact.phone}</p>
-            <p>Email: {contact.email}</p>
-          </div>
-        ))}
-      </div>
+            <span
+                className="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"
+            ></span>
+            <h1 className="font-bold, ">All REGISTERED CONTACT</h1>
+            <div className="sm:flex sm:justify-between sm:gap-4">
+                <div>
+                    <h3 className="text-lg font-bold text-white-900 sm:text-xl">
+                        {contact.fullName}
+                    </h3>
+                    <p className="mt-1 text-xs font-medium text-gray-400">{contact.phone}</p>
+                </div>
+            </div>
+        </Link>
+    )
+}
 
-    </div>
-  );
-};
-
-export default ContactsPage;
+export default Contact;
