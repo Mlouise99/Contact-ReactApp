@@ -1,27 +1,50 @@
-import { Link } from "react-router-dom"
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-const Contact = ({ contact }) => {
-   
+const ContactsPage = () => {
+    const [contacts, setContacts] = useState([]);
+
+    useEffect(() => {
+        fetchContacts();
+    }, []);
+
+    const fetchContacts = () => {
+        axios.get('https://contact-app-server-nxgi.onrender.com/api/v1/contactapp/contact/list')
+            .then((res) => {
+                setContacts(res.data.contacts);
+            })
+            .catch((err) => {
+                console.log(err);
+                alert("Fetching contacts failed");
+            });
+    };
 
     return (
-        <Link
-            to={`${contact._id}`}
-            className="relative block overflow-hidden rounded-lg border border-gray-100 p-4 sm:p-6 lg:p-8"
-        >
-            <span
-                className="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"
-            ></span>
-            <h1 className="font-bold, ">All REGISTERED CONTACT</h1>
-            <div className="sm:flex sm:justify-between sm:gap-4">
-                <div>
-                    <h3 className="text-lg font-bold text-white-900 sm:text-xl">
-                        {contact.fullName}
-                    </h3>
-                    <p className="mt-1 text-xs font-medium text-gray-400">{contact.phone}</p>
+        <div className='flex flex-col items-center'>
+            <button className='bg-blue-800 text-white font-bold py-1 px-2 mt-4 mb-4'>
+                <Link to="/">Add New</Link>
+            </button>
+            {contacts.length > 0 ? (
+                <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+                    {contacts.map((contact, index) => (
+                        <div key={index} className='border border-gray-300 rounded-lg p-4'>
+                            <h2 className='text-xl font-bold'>{contact.fullName}</h2>
+                            <img src={contact.profile} alt='' className='w-full mt-2 mb-2 rounded-lg' />
+                            <div className='flex justify-between'>
+                                <Link to={`/details/${contact._id}`} className='bg-blue-400 text-white font-bold py-1 px-2 mt-2 rounded-lg'>
+                                    View
+                                </Link>
+                                
+                            </div>
+                        </div>
+                    ))}
                 </div>
-            </div>
-        </Link>
-    )
-}
+            ) : (
+                <p>No contacts found!</p>
+            )}
+        </div>
+    );
+};
 
-export default Contact;
+export default ContactsPage;
