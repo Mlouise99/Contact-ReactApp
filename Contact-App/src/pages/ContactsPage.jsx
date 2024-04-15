@@ -32,9 +32,10 @@ const ContactsPage = () => {
                             <h2 className='text-xl font-bold'>{contact.fullName}</h2>
                             <img src={contact.profile} alt='' className='w-full mt-2 mb-2 rounded-lg' />
                             <div className='flex justify-between'>
-                                <Link to={`/details/${contact._id}`} className='bg-blue-400 text-white font-bold py-1 px-2 mt-2 rounded-lg'>
-                                    View
-                                </Link>
+                            <Link to={`/details/${contact._id}`} className='bg-blue-400 text-white font-bold py-1 px-2 mt-2 rounded-lg'>
+    View
+</Link>
+
                                 
                             </div>
                         </div>

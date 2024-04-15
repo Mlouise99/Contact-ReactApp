@@ -2,7 +2,6 @@ import axios from "axios";
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 
-
 export default function Create() {
   const navigate = useNavigate();
 
@@ -10,8 +9,7 @@ export default function Create() {
   const [error, setError] = useState("");
   const [contact, setContact] = useState({});
 
-
-  // Function to update 
+  // Function to create contact
   const createContact = (e) => {
     e.preventDefault();
 
@@ -24,7 +22,7 @@ export default function Create() {
         setMessage(response.data.message);
         
         setTimeout(() => {
-          navigate('/');
+          navigate('/contacts'); // Redirect to ContactsPage after creating a new contact
         }, 3000);
       }
     })

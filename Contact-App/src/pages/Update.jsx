@@ -19,7 +19,7 @@ export default function Update() {
       .catch(err => { console.error(err);})
   }, [params.contactId])
 
-  // Function to updaclient
+  // Function to update contact
   const updateContact = (e) => {
     e.preventDefault();
 
@@ -34,15 +34,14 @@ export default function Update() {
         
         setTimeout(() => {
           setMessage('');
-          navigate(`/more/${response.data.contact._id}`);
+          navigate(`/details/${response.data.contact._id}`);
         }, 3000);
       }
     })
     .catch(err => { 
       setError(err);
       console.error(err);
-    })
-    
+    })  
   }
 
   const handleInputs = (e) => {
@@ -50,55 +49,57 @@ export default function Update() {
   }
 
   return (
-    <div className="w-ful flex flex-col justify-center items-center">
-      <div className="md:max-w-4xl w-11/12 flex flex-col justify-between py-8">
-        <h1 className="text-3xl mb-3 font-semibold">{contact.fullName}</h1>
-        <form onSubmit={updateContact} className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <label htmlFor="fullName">Full name</label>
-            <input 
-              type="text" 
-              name="fullName" 
-              required
-              value={contact.fullName || ''} 
-              id="fullName" 
-              onChange={handleInputs} 
-              className="border-black border rounded-lg p-3"
-            />
-          </div>
+    <div className="container mx-auto px-4">
+      <div className="max-w-md mx-auto mt-10 bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="p-4">
+          <h1 className="text-3xl font-semibold mb-4">{contact.fullName}</h1>
+          <form onSubmit={updateContact} className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <label htmlFor="fullName" className="font-semibold">Full name</label>
+              <input 
+                type="text" 
+                name="fullName" 
+                required
+                value={contact.fullName || ''} 
+                id="fullName" 
+                onChange={handleInputs} 
+                className="border border-gray-300 rounded-lg p-3"
+              />
+            </div>
 
-          <div className="flex flex-col gap-2">
-            <label htmlFor="email">Email</label>
-            <input 
-              type="email" 
-              name="email" 
-              required
-              value={contact.email || ''} 
-              id="email" 
-              onChange={handleInputs} 
-              className="border-black border rounded-lg p-3"
-            />
-          </div>
-          
-          <div className="flex flex-col gap-2">
-            <label htmlFor="phone">Phone</label>
-            <input 
-              type="number" 
-              name="phone"
-              minLength={10}
-              maxLength={10}
-              required 
-              value={contact.phone || ''} 
-              id="phone" 
-              onChange={handleInputs} 
-              className="border-black border rounded-lg p-3"
-            />
-          </div>
-          
-          <button type="submit" className="mt-5 py-3 px-6 bg-slate-600 text-white rounded-lg text-base">Update</button>
-          {message && <p className="bg-green-200 text-green-900 p-5 rounded-lg">{message}</p>}
-          {error && <p className="bg-red-200 text-red-900 p-5 rounded-lg">{error}</p>}
-        </form>
+            <div className="flex flex-col gap-2">
+              <label htmlFor="email" className="font-semibold">Email</label>
+              <input 
+                type="email" 
+                name="email" 
+                required
+                value={contact.email || ''} 
+                id="email" 
+                onChange={handleInputs} 
+                className="border border-gray-300 rounded-lg p-3"
+              />
+            </div>
+            
+            <div className="flex flex-col gap-2">
+              <label htmlFor="phone" className="font-semibold">Phone</label>
+              <input 
+                type="number" 
+                name="phone"
+                minLength={10}
+                maxLength={10}
+                required 
+                value={contact.phone || ''} 
+                id="phone" 
+                onChange={handleInputs} 
+                className="border border-gray-300 rounded-lg p-3"
+              />
+            </div>
+            
+            <button type="submit" className="mt-5 py-3 px-6 bg-blue-500 text-white rounded-lg text-base hover:bg-blue-600 transition duration-300">Update</button>
+            {message && <p className="bg-green-200 text-green-900 p-3 rounded-lg">{message}</p>}
+            {error && <p className="bg-red-200 text-red-900 p-3 rounded-lg">{error}</p>}
+          </form>
+        </div>
       </div>
     </div>
   )

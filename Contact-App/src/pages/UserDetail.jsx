@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom";
 
-const More = () => {
+const Details = () => {
   const params = useParams();
   const navigate = useNavigate();
 
@@ -13,54 +13,62 @@ const More = () => {
   useEffect(() => {
     axios.get(`https://contact-app-server-nxgi.onrender.com/api/v1/contactapp/contact/findById?id=${params.contactId}`)
       .then(response => {
-          setContact(response.data.contact);
+        setContact(response.data.contact);
       })
       .catch(err => { console.error(err);})
   }, [params.contactId])
 
   const deleteContact = (e) => {
     e.preventDefault();
-
+  
     setError('');
     setMessage('');
-
-    axios.delete(`https://contact-app-server-nxgi.onrender.com/api/v1/contactapp/delete?id=${params.contactId}`, contact)
-    .then(response => {
-      if (response.status === 200) {
-        setMessage(response.data.message);
-        
-        setTimeout(() => {
-          navigate('/');
-        }, 3000);
-      }
-    })
-    .catch(err => { 
-      setError(err);
-      console.error(err);
-    })
+  
+    // Ensure that the correct URL is used for the delete request
+    axios.delete(`https://contact-app-server-nxgi.onrender.com/api/v1/contactapp/contact/delete?id=${params.contactId}`)
+      .then(response => {
+        if (response.status === 200) {
+          setMessage(response.data.message);
+          
+          setTimeout(() => {
+            navigate('/contacts'); // Redirect to ContactsPage after successful deletion
+          }, 3000);
+        }
+      })
+      .catch(err => { 
+        setError(err.message); // Set error message from the Axios error
+        console.error(err);
+      })
   };
+  
 
   return (
-    <div className="w-ful flex flex-col justify-center items-center">
-      <div className="md:max-w-4xl w-11/12 flex flex-col justify-between py-8">
-        {message && <p className="bg-green-200 text-green-900 p-5 rounded-lg">{message}</p>}
-        {error && <p className="bg-red-200 text-red-900 p-5 rounded-lg">{error}</p>}
-        <div className="flex w-full justify-between mt-5">
-          <h1 className="text-3xl mb-3 font-semibold">{contact.fullName}</h1>
-          <div className="flex gap-4">
-            <button onClick={() => navigate(`/update/${contact._id}`)} className="py-3 px-6 bg-slate-600 text-white rounded-lg text-base">Update</button>
-            <button type="button" onClick={deleteContact} className="py-3 px-6 bg-red-600 text-white rounded-lg text-base">Delete</button>
+    <div className="container mx-auto px-4">
+      <div className="max-w-md mx-auto mt-10 bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="p-4">
+          {message && <p className="bg-green-200 text-green-900 p-3 rounded-lg">{message}</p>}
+          {error && <p className="bg-red-200 text-red-900 p-3 rounded-lg">{error}</p>}
+          <div className="flex items-center justify-between">
+            <h1 className="text-3xl font-semibold mb-3">{contact.fullName}</h1>
+            <div className="flex gap-4">
+              <button onClick={() => navigate(`/update/${contact._id}`)} className="py-3 px-6 bg-blue-500 text-white rounded-lg text-base hover:bg-blue-600 transition duration-300">Update</button>
+              <button onClick={deleteContact} className="py-3 px-6 bg-red-500 text-white rounded-lg text-base hover:bg-red-600 transition duration-300">Delete</button>
+            </div>
           </div>
-        </div>
-        <div>
-          <p>Email: {contact.email}</p>
-          <p>Phone: {contact.phone}</p>
-          <p>Create on: {new Date(contact.createdAt).toUTCString()}</p>
-          <p>Updated on: {new Date(contact.updatedAt).toUTCString()}</p>
+          <div className="mt-4">
+            <p className="font-semibold">Email:</p>
+            <p>{contact.email}</p>
+            <p className="font-semibold">Phone:</p>
+            <p>{contact.phone}</p>
+            <p className="font-semibold">Created on:</p>
+            <p>{new Date(contact.createdAt).toUTCString()}</p>
+            <p className="font-semibold">Updated on:</p>
+            <p>{new Date(contact.updatedAt).toUTCString()}</p>
+          </div>
         </div>
       </div>
     </div>
   )
 }
 
-export default More
+export default Details
