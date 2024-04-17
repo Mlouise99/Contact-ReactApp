@@ -31,7 +31,7 @@ const Details = () => {
           setMessage(response.data.message);
           
           setTimeout(() => {
-            navigate('/contacts'); // Redirect to ContactsPage after successful deletion
+            navigate('/'); // Redirect to ContactsPage after successful deletion
           }, 3000);
         }
       })

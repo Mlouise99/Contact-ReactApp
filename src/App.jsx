@@ -9,8 +9,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<SignUpPage />} />
-        <Route path="/contacts" element={<ContactsPage />} />
+        
+        <Route path="/" element={<ContactsPage />} />
+        <Route path="/sign" element={<SignUpPage />} />
         {/* Update the route to accept a parameter */}
         <Route path="/update/:contactId" element={<Update />} />
         {/* Update the route to accept a parameter */}

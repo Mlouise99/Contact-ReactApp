@@ -22,7 +22,7 @@ export default function Create() {
         setMessage(response.data.message);
         
         setTimeout(() => {
-          navigate('/contacts'); // Redirect to ContactsPage after creating a new contact
+          navigate("/"); 
         }, 3000);
       }
     })
